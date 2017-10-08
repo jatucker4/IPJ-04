@@ -1,0 +1,31 @@
+import java.util.Scanner;
+import java.util.Random;
+class Main{
+    public static void main(String args[]) {
+        Scanner inp = new Scanner(System.in);
+        System.out.println("How many circles should there be?");
+        int amount = inp.nextInt();
+        System.out.println("What is the percent chance that a circle will be black?");
+        int prob = inp.nextInt();
+        System.out.println("What is the minimum radius for each circle?");
+        double min = inp.nextDouble();
+        System.out.println("What is the maximum radius for each circle?");
+        double max = inp.nextDouble();
+        int numBlack = (prob*amount/ 100);
+        int numWhite = amount - numBlack;
+        Random generator = new Random();
+
+        for(int i = 0;i<numBlack;i++){
+                double x = Math.random();
+                double y = Math.random();
+                double rad =min+(max-min)*generator.nextDouble();
+                StdDraw.filledCircle(x,y,rad);
+            }
+        for(int k = 0;k<numWhite;k++){
+            double l = Math.random();
+            double j = Math.random();
+            double otherRad = min+(max-min)*generator.nextDouble();
+            StdDraw.circle(l,j,otherRad);
+        }
+    }
+}
