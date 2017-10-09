@@ -1,0 +1,91 @@
+import java.util.Arrays;
+import java.util.Scanner;
+class Main {
+
+    public static void main(String[] args) {
+        Scanner inp = new Scanner(System.in);
+        System.out.println("Enter the integer N number of intervals:");
+        int N = inp.nextInt();
+        System.out.println("Enter the lower limit to N into:");
+        double left = inp.nextDouble();
+        System.out.println("Enter the upper limit:");
+        double right = inp.nextDouble();
+        double[] samples = make_samples(left, right);
+        int[] intervals = make_intervals(samples, N, left, right);
+        draw_histogram(intervals, samples);
+    }
+
+    public static double[] make_samples(double left, double right) {
+        String allstr = "";
+        while(!StdIn.isEmpty()) {
+            String str = StdIn.readString();
+            double n = Double.parseDouble(str);
+            if (n >= left && n <= right) {
+                allstr = allstr + str + " ";
+            }
+        }
+
+        String[] str_array = allstr.split(" ");
+        int len = str_array.length;
+
+        double[] double_array = new double[len];
+
+        for (int i = 0; i < len; i++) {
+            double_array[i] = Double.parseDouble(str_array[i]);
+        }
+
+        return double_array;
+    }
+
+    public static int[] make_intervals(double[] samples, int N, double left, double right) {
+        int[] result = new int[N];
+        int p;
+
+        for (int i = 0; i < samples.length; i++) {
+            p = which_interval(samples[i], N, left, right);
+            result[p] += 1;
+        }
+
+        return result;
+    }
+
+    public static int which_interval(double sample, int N, double left, double right) {
+
+        int k = 0;
+        double avg = (right - left) / N;
+
+        for (int i = 0; i < N; i++) {
+            if (sample >= avg * i && sample < avg * (i + 1)) {
+                k = i;
+                break;
+            }
+        }
+
+        if (sample == right) {
+            k = N - 1;
+        }
+
+        return k;
+    }
+
+    public static void draw_histogram(int[] intervals, double[] samples) {
+
+        StdDraw.setPenRadius(.006);
+        StdDraw.line(0, 0, 1, 0);
+        StdDraw.line(0, 0, 0, 1);
+
+        int n = intervals.length;
+        int total = samples.length;
+        double interval_width = 1.0 / n;
+        double x, y;
+        double halfWidth = interval_width / 2;
+
+        StdDraw.setPenColor(StdDraw.GRAY);
+        StdDraw.setPenRadius();
+        for (int i = 0; i < n; i++) {
+            x = i * interval_width + halfWidth;
+            y = (double)intervals[i] / total / 2;
+            StdDraw.rectangle(x, y, halfWidth, y);
+        }
+
+    }
