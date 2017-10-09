@@ -1,0 +1,52 @@
+import java.util.Scanner;
+import java.lang.StringBuilder;
+class Main{
+
+    public static void main(String args[]){
+        System.out.println("Enter a 10 digit integer:");
+        int[] numbers = readNumsFromCommandLine();
+        int[] another = numbers;
+        StringBuilder builder = new StringBuilder();
+        for (int i : another) {
+            builder.append(i);
+        }
+        String text = builder.toString();
+        System.out.print(text);
+        int a = check(numbers);
+        System.out.print(a);
+        }
+
+    public static int check(int[] digits) {
+        int sum = 0;
+        int length = digits.length;
+        for (int i = 0; i < length; i++) {
+
+        int digit = digits[length-i-1];
+
+        if (i % 2 == 1) {
+        digit*= 2;
+        }
+        sum += digit > 9 ? digit - 9 : digit;
+        }
+        return sum % 10;
+        }
+
+    public static int [] readNumsFromCommandLine() {
+
+        Scanner s = new Scanner(System.in);
+
+        int count = 10;
+        int [] numbers = new int[count];
+        Scanner numScanner = new Scanner(s.nextLine());
+        for (int i = 0; i < count; i++) {
+            if (numScanner.hasNextInt()) {
+                numbers[i] = numScanner.nextInt();
+            } else {
+                System.out.println("You didn't provide enough numbers");
+                break;
+            }
+        }
+
+        return numbers;
+    }
+}
